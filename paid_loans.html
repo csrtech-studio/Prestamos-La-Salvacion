@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial de Préstamos Pagados</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <img src="image/logo.png" alt="Logo de Préstamos La Salvación" class="logo">
+        <h1>Historial de Préstamos Pagados</h1>
+    </header>
+
+    <!-- Contenedor para el total prestado -->
+    <div>
+        <h2>Total Prestado: <span id="totalAmount">0</span> MXN</h2>
+    </div>
+    
+    <button onclick="window.location.href='index.html'">Regresar</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Fecha de Préstamo</th>
+                <th>Cantidad</th>
+                <th>Estatus</th>
+            </tr>
+        </thead>
+        <tbody id="paidLoanTableBody"></tbody>
+    </table>
+
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js"></script>
+    <script type="module" src="paid_loans_script.js"></script>
+</body>
+</html>

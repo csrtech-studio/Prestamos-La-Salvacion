@@ -1,6 +1,5 @@
-// Importar las funciones necesarias de Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
 
 // Configuración de Firebase
 const firebaseConfig = {
@@ -40,7 +39,7 @@ async function registerLoan() {
             remaining: totalToPay,
             currentWeek: weeks,
             status: 'Pendiente',
-            payments: [] // Pagos registrados
+            payments: []
         };
 
         try {
@@ -71,7 +70,8 @@ function displayLoans() {
             <td>${loan.remaining.toFixed(2)}</td>
             <td>
                 <button onclick="viewDetails(${index})">Detalles</button>
-                <button onclick="makePayment(${index})">Pagar</button>
+                ${loan.remaining > 0 ? `<button onclick="makePayment(${index})">Pagar</button>` : ''}
+                ${loan.remaining <= 0 ? `<button onclick="deleteLoan(${index})" style="background-color:red; color:white;">Eliminar</button>` : ''}
             </td>
         `;
         tableBody.appendChild(row);
@@ -121,6 +121,42 @@ async function makePayment(index) {
     }
 }
 
+// Función para agregar un préstamo pagado a la colección 'paid_loans'
+async function addPaidLoan(loan) {
+    const paidLoan = {
+        name: loan.name,
+        loanDate: loan.loanDate,
+        amount: loan.amount,
+        status: 'Pagado'
+    };
+
+    try {
+        await addDoc(collection(db, "paid_loans"), paidLoan);
+        console.log("Préstamo agregado a 'paid_loans'");
+    } catch (error) {
+        console.error("Error al agregar el préstamo pagado: ", error);
+    }
+}
+
+// Función para eliminar un préstamo
+async function deleteLoan(index) {
+    const loan = loans[index];
+    const confirmDelete = confirm(`¿Estás seguro de que deseas eliminar el préstamo de ${loan.name}?`);
+
+    if (confirmDelete) {
+        try {
+            // Mover el préstamo a la colección 'paid_loans'
+            await addPaidLoan(loan);
+            // Eliminar el préstamo de la colección principal
+            await deleteDoc(doc(db, "loans", loan.id));
+            loans.splice(index, 1);
+            displayLoans();
+        } catch (error) {
+            console.error("Error al eliminar el préstamo: ", error);
+        }
+    }
+}
+
 // Función para ver detalles del préstamo
 function viewDetails(index) {
     const loan = loans[index];
@@ -164,3 +200,4 @@ window.onload = () => {
 window.registerLoan = registerLoan;
 window.viewDetails = viewDetails;
 window.makePayment = makePayment;
+window.deleteLoan = deleteLoan;

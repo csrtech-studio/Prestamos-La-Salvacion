@@ -128,3 +128,38 @@ tr:nth-child(even) {
         width: 100%; /* Botones más grandes en pantallas pequeñas */
     }
 }
+
+#searchInput {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+table {
+    margin-top: 20px; /* Espacio adicional arriba de la tabla */
+}
+
+button {
+    display: block; /* Hace que el botón ocupe todo el ancho */
+    margin: 20px auto; /* Centra el botón */
+}
+
+button {
+    background-color: #0056b3; /* Color de fondo azul */
+    color: white; /* Color del texto */
+    border: none; /* Sin borde */
+    padding: 10px 20px; /* Espaciado */
+    text-align: center; /* Centrar el texto */
+    text-decoration: none; /* Sin subrayado */
+    display: inline-block; /* Para el espaciado */
+    margin: 10px 0; /* Margen vertical */
+    cursor: pointer; /* Cambiar el cursor al pasar el mouse */
+    border-radius: 5px; /* Bordes redondeados */
+}
+
+button:hover {
+    background-color: #004494; /* Cambiar color al pasar el mouse */
+}
+
