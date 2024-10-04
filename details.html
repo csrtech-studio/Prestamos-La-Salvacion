@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del Préstamo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1 id="loanName">Detalles del Préstamo</h1>
+    
+    <section class="loan-details">
+        <p>Fecha del préstamo: <span id="loanDate"></span></p>
+        <p>Monto prestado: <span id="loanAmount"></span></p>
+        <p>Total a pagar: <span id="totalToPay"></span></p>
+        <p>Semanas restantes: <span id="remainingWeeks"></span></p>
+        <p>Monto restante: <span id="remainingAmount"></span></p>
+        <p>Monto por semana: <span id="weeklyPayment"></span></p> <!-- Monto semanal -->
+    </section>
+    
+    <h2>Pagos Registrados</h2>
+    <ul id="paymentsList"></ul> <!-- Listado de pagos -->
+
+    <button onclick="goBack()">Regresar al inicio</button>
+
+    <script>
+        window.onload = function() {
+            const loan = JSON.parse(localStorage.getItem('loanDetails'));
+
+            if (loan) {
+                document.getElementById('loanName').textContent = `Detalles del préstamo de ${loan.name}`;
+                document.getElementById('loanDate').textContent = loan.loanDate;
+                document.getElementById('loanAmount').textContent = `$${loan.amount.toFixed(2)}`;
+                document.getElementById('totalToPay').textContent = `$${loan.totalToPay.toFixed(2)}`;
+                document.getElementById('remainingWeeks').textContent = loan.currentWeek;
+                document.getElementById('remainingAmount').textContent = `$${loan.remaining.toFixed(2)}`;
+                document.getElementById('weeklyPayment').textContent = `$${loan.weeklyPayment.toFixed(2)}`; // Mostrar monto semanal
+
+                const paymentsList = document.getElementById('paymentsList');
+                loan.payments.forEach(payment => {
+                    const paymentItem = document.createElement('li');
+                    paymentItem.textContent = `Semana ${payment.week}: Pagado $${payment.paymentAmount.toFixed(2)} el ${payment.date}`;
+                    paymentsList.appendChild(paymentItem);
+                });
+            } else {
+                alert('No se encontraron los detalles del préstamo.');
+            }
+        }
+
+        function goBack() {
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
