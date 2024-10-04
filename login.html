@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Préstamos La Salvación</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <img src="image/logo.png" alt="Logo de Préstamos La Salvación" class="logo">
+    </header>
+    
+    <h2>Iniciar Sesión</h2>
+    <form id="loginForm">
+        <input type="email" id="email" placeholder="Correo electrónico" required>
+        <input type="password" id="password" placeholder="Contraseña" required>
+        <button type="submit">Entrar</button>
+    </form>
+
+    <p><a href="forgot_password.html">¿Olvidaste tu contraseña?</a></p>
+
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js"></script>
+    <script type="module" src="login_script.js"></script>
+</body>
+</html>
