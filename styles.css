@@ -163,3 +163,29 @@ button:hover {
     background-color: #004494; /* Cambiar color al pasar el mouse */
 }
 
+/* Botón atractivo para solicitar un préstamo */
+.btn-solicitar-prestamo {
+    background-color: #4CAF50; /* Color verde atractivo */
+    color: white;
+    padding: 15px 30px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-solicitar-prestamo:hover {
+    background-color: #45a049; /* Efecto hover */
+}
+
+/* Estilo para la leyenda del login de administrador */
+.admin-info {
+    color: #ff0000; /* Rojo para que sea visible */
+    font-size: 14px;
+    margin-top: 10px;
+}

@@ -5,12 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Préstamos La Salvación</title>
     <link rel="stylesheet" href="styles.css">
-</head>
+    <link rel="icon" href="image/favicon.ico" type="image/x-icon">
+    </head>
 <body>
     <header>
         <img src="image/logo.png" alt="Logo de Préstamos La Salvación" class="logo">
     </header>
-    
+
+     <a href="solicitar_prestamo.html" class="btn-solicitar-prestamo">Solicitar un préstamo</a>
+    <br>
     <h2>Iniciar Sesión</h2>
     <form id="loginForm">
         <input type="email" id="email" placeholder="Correo electrónico" required>
@@ -18,7 +21,10 @@
         <button type="submit">Entrar</button>
     </form>
 
+    <p class="admin-info">* El acceso es solo para administradores *</p>
+
     <p><a href="forgot_password.html">¿Olvidaste tu contraseña?</a></p>
+
 
     <script type="module" src="https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js"></script>
     <script type="module" src="https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js"></script>
