@@ -1,5 +1,4 @@
-/* styles.css */
-
+/* Estilos generales para toda la página */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4; /* Color de fondo más claro */
@@ -20,8 +19,6 @@ body {
     margin-bottom: 20px; /* Espacio debajo del encabezado */
 }
 
-
-
 h1 {
     color: #0056b3; /* Color azul para el título */
     font-size: 30px; /* Tamaño de fuente ajustado */
@@ -37,6 +34,7 @@ h1 {
     max-width: 600px; /* Ancho máximo para formularios y listas */
 }
 
+/* Estilos generales de los formularios */
 .loan-form label {
     display: block;
     margin-top: 10px;
@@ -188,4 +186,58 @@ button:hover {
     color: #ff0000; /* Rojo para que sea visible */
     font-size: 14px;
     margin-top: 10px;
+}
+
+/* ----------- Estilos específicos para solicitar_prestamo.html ------------ */
+
+/* Mejora del formulario de solicitud de préstamo */
+.solicitar-prestamo-form {
+    background-color: #ffffff; /* Fondo blanco para el formulario */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    margin-top: 20px;
+}
+
+.solicitar-prestamo-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #333;
+}
+
+.solicitar-prestamo-form input {
+    width: 100%; /* Ocupa todo el ancho del contenedor */
+    padding: 10px;
+    margin-bottom: 15px; /* Espacio entre campos */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.solicitar-prestamo-form button {
+    width: 100%; /* Botón ocupa todo el ancho */
+    padding: 15px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.solicitar-prestamo-form button:hover {
+    background-color: #218838;
+}
+
+@media (max-width: 600px) {
+    .solicitar-prestamo-form {
+        padding: 15px;
+    }
+
+    .solicitar-prestamo-form input,
+    .solicitar-prestamo-form button {
+        font-size: 14px;
+    }
 }

@@ -33,12 +33,12 @@
     </script>
 </head>
 <body>
-    <header>
+    <header class="header">
         <img src="image/logo.png" alt="Logo de Préstamos La Salvación" class="logo">
+        <h2>Solicitar Préstamo</h2>
     </header>
 
-    <h2>Solicitar Préstamo</h2>
-    <form onsubmit="enviarSolicitud(); return false;">
+    <form onsubmit="enviarSolicitud(); return false;" class="loan-form">
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" placeholder="Tu nombre" required>
 
@@ -51,7 +51,7 @@
         <label for="monto">Cantidad solicitada:</label>
         <input type="number" id="monto" placeholder="Monto solicitado" required>
 
-        <button type="submit">Enviar solicitud</button>
+        <button type="submit" class="btn-solicitar-prestamo">Enviar solicitud</button>
     </form>
 </body>
 </html>
