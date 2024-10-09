@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="image/favicon.ico" type="image/x-icon">
+    <title>Préstamos La Salvación</title>
 </head>
 <body>
     <header>
@@ -47,16 +48,13 @@
 
         onAuthStateChanged(auth, (user) => {
             if (!user) {
-                // Si no hay un usuario logeado, redirigir a login.html
-                window.location.href = 'login.html';
+                window.location.href = 'login.html'; // Redirigir a login si no está autenticado
             } else {
-                // Cargar préstamos solo si el usuario está autenticado
-                loadLoans();
+                loadLoans(); // Cargar préstamos solo si el usuario está autenticado
                 startInactivityTimer();
             }
         });
 
-        // Función para desloguear al usuario
         async function logout() {
             try {
                 await signOut(auth);
@@ -68,15 +66,12 @@
 
         let inactivityTime = 0;
 
-        // Función para iniciar el temporizador de inactividad
         function startInactivityTimer() {
-            // Restablecer el temporizador cada vez que el usuario interactúe
             window.onload = resetTimer;
             window.onmousemove = resetTimer;
             window.onkeypress = resetTimer;
             window.onscroll = resetTimer;
 
-            // Temporizador que se ejecuta cada minuto
             setInterval(() => {
                 inactivityTime++;
                 if (inactivityTime >= 30) { // 30 minutos
@@ -85,7 +80,6 @@
             }, 60000); // 60000 ms = 1 minuto
         }
 
-        // Función para reiniciar el temporizador de inactividad
         function resetTimer() {
             inactivityTime = 0;
         }

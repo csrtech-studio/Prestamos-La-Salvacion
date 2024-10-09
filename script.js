@@ -17,6 +17,9 @@ const db = getFirestore(app);
 
 let loans = [];
 
+// Clave de eliminación (encriptada)
+const deleteKey = "salvacion"; // Almacenada en texto plano por simplicidad, puedes encriptarla si es necesario
+
 // Función para registrar un préstamo
 async function registerLoan() {
     const name = document.getElementById('name').value;
@@ -64,18 +67,39 @@ function displayLoans() {
     loans.forEach((loan, index) => {
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td>${loan.name}</td>
+            <td><a href="#" onclick="confirmDelete(${index})">${loan.name}</a></td>
             <td>${loan.loanDate}</td>
             <td>${loan.totalToPay.toFixed(2)}</td>
             <td>${loan.remaining.toFixed(2)}</td>
             <td>
                 <button onclick="viewDetails(${index})">Detalles</button>
                 ${loan.remaining > 0 ? `<button onclick="makePayment(${index})">Pagar</button>` : ''}
-                ${loan.remaining <= 0 ? `<button onclick="deleteLoan(${index})" style="background-color:red; color:white;">Eliminar</button>` : ''}
             </td>
         `;
         tableBody.appendChild(row);
     });
+}
+
+// Función para confirmar la eliminación del préstamo
+async function confirmDelete(index) {
+    const loan = loans[index];
+    const deleteKeyInput = prompt(`¿Deseas eliminar el préstamo de ${loan.name}? Esta acción no se puede deshacer. \n\nIngresa la clave para eliminar:`);
+
+    if (deleteKeyInput === deleteKey) {
+        try {
+            // Mover el préstamo a la colección 'paid_loans'
+            await addPaidLoan(loan);
+            // Eliminar el préstamo de la colección principal
+            await deleteDoc(doc(db, "loans", loan.id));
+            loans.splice(index, 1);
+            displayLoans();
+            alert('Registro eliminado correctamente.');
+        } catch (error) {
+            console.error("Error al eliminar el préstamo: ", error);
+        }
+    } else {
+        alert('Error de código. Verifica e intenta de nuevo.');
+    }
 }
 
 // Función para registrar un pago
@@ -83,7 +107,7 @@ async function makePayment(index) {
     const loan = loans[index];
 
     if (loan.remaining > 0 && loan.currentWeek > 0) {
-        const confirmPayment = confirm(`¿Deseas pagar la semana ${loan.weeks - loan.currentWeek + 1}?`);
+        const confirmPayment = confirm(`¿Deseas pagar la semana ${loan.weeks - loan.currentWeek + 1} de ${loan.name}?`);
 
         if (confirmPayment) {
             const weeklyPayment = loan.weeklyPayment;
@@ -138,25 +162,6 @@ async function addPaidLoan(loan) {
     }
 }
 
-// Función para eliminar un préstamo
-async function deleteLoan(index) {
-    const loan = loans[index];
-    const confirmDelete = confirm(`¿Estás seguro de que deseas eliminar el préstamo de ${loan.name}?`);
-
-    if (confirmDelete) {
-        try {
-            // Mover el préstamo a la colección 'paid_loans'
-            await addPaidLoan(loan);
-            // Eliminar el préstamo de la colección principal
-            await deleteDoc(doc(db, "loans", loan.id));
-            loans.splice(index, 1);
-            displayLoans();
-        } catch (error) {
-            console.error("Error al eliminar el préstamo: ", error);
-        }
-    }
-}
-
 // Función para ver detalles del préstamo
 function viewDetails(index) {
     const loan = loans[index];
@@ -200,4 +205,4 @@ window.onload = () => {
 window.registerLoan = registerLoan;
 window.viewDetails = viewDetails;
 window.makePayment = makePayment;
-window.deleteLoan = deleteLoan;
+window.confirmDelete = confirmDelete; // Exponer la función de confirmación de eliminación
