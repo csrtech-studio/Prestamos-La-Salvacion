@@ -24,6 +24,7 @@ document.getElementById('resetForm').addEventListener('submit', async (event) =>
     try {
         await sendPasswordResetEmail(auth, email);
         alert('Se ha enviado un enlace de restablecimiento a tu correo electrónico.');
+        window.location.href = 'login.html'; // Redirigir a la página forgot_password.html
     } catch (error) {
         console.error("Error al enviar el enlace de restablecimiento: ", error);
         alert('Error al enviar el enlace de restablecimiento. Verifica tu correo.');

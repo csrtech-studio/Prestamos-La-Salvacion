@@ -1,12 +1,13 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
 import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
+import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
 
 // Configuración de Firebase
 const firebaseConfig = {
     apiKey: "AIzaSyB2P22lorgeiQjHgnvMcguBiP4U9PZUYZs",
     authDomain: "prestamos-la-salvacion.firebaseapp.com",
     projectId: "prestamos-la-salvacion",
-    storageBucket: "prestamos-la-salvation.appspot.com",
+    storageBucket: "prestamos-la-salvacion.appspot.com",
     messagingSenderId: "326817496328",
     appId: "1:326817496328:web:6854959ede4e0a0f8700bd"
 };
@@ -14,6 +15,7 @@ const firebaseConfig = {
 // Inicializar Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth();
 
 let loans = [];
 
@@ -62,7 +64,12 @@ async function registerLoan() {
 // Función para mostrar préstamos
 function displayLoans() {
     const tableBody = document.getElementById('loanTableBody');
-    tableBody.innerHTML = '';
+    tableBody.innerHTML = ''; // Limpiar la tabla antes de agregar nuevos datos
+
+    if (loans.length === 0) {
+        tableBody.innerHTML = '<tr><td colspan="5">No hay préstamos registrados</td></tr>'; // Mostrar mensaje si no hay préstamos
+        return;
+    }
 
     loans.forEach((loan, index) => {
         const row = document.createElement('tr');
@@ -73,11 +80,16 @@ function displayLoans() {
             <td>${loan.remaining.toFixed(2)}</td>
             <td>
                 <button onclick="viewDetails(${index})">Detalles</button>
-                ${loan.remaining > 0 ? `<button onclick="makePayment(${index})">Pagar</button>` : ''}
+                ${loan.remaining > 0 ? 
+                    `<button onclick="makePayment(${index})">Pagar</button>` : 
+                    `<button class="green-button" onclick="savePaidLoan(${index})">Guardar</button>`
+                }
             </td>
         `;
         tableBody.appendChild(row);
     });
+
+    console.log("Préstamos mostrados en la tabla.");
 }
 
 // Función para confirmar la eliminación del préstamo
@@ -87,9 +99,6 @@ async function confirmDelete(index) {
 
     if (deleteKeyInput === deleteKey) {
         try {
-            // Mover el préstamo a la colección 'paid_loans'
-            await addPaidLoan(loan);
-            // Eliminar el préstamo de la colección principal
             await deleteDoc(doc(db, "loans", loan.id));
             loans.splice(index, 1);
             displayLoans();
@@ -127,7 +136,6 @@ async function makePayment(index) {
                 loan.status = 'Pagado';
             }
 
-            // Actualizar préstamo en Firestore
             try {
                 await updateDoc(doc(db, "loans", loan.id), {
                     remaining: loan.remaining,
@@ -142,6 +150,24 @@ async function makePayment(index) {
         }
     } else {
         alert('No hay saldo pendiente para pagar o ya se completó el préstamo.');
+    }
+}
+
+// Función para guardar el préstamo pagado en la colección 'paid_loans'
+async function savePaidLoan(index) {
+    const loan = loans[index];
+
+    try {
+        await addPaidLoan(loan);
+        console.log("Préstamo guardado en 'paid_loans'");
+
+        await deleteDoc(doc(db, "loans", loan.id));
+        loans.splice(index, 1);
+        displayLoans();
+
+        alert('Préstamo guardado correctamente.');
+    } catch (error) {
+        console.error("Error al guardar el préstamo: ", error);
     }
 }
 
@@ -177,7 +203,7 @@ function clearForm() {
     document.getElementById('weeks').value = '';
 }
 
-// Cargar los préstamos desde Firestore al inicio
+// Función para cargar los préstamos desde Firestore
 async function loadLoans() {
     try {
         const querySnapshot = await getDocs(collection(db, "loans"));
@@ -185,15 +211,27 @@ async function loadLoans() {
         querySnapshot.forEach((doc) => {
             loans.push({ id: doc.id, ...doc.data() });
         });
+        console.log("Préstamos cargados:", loans);
         displayLoans();
     } catch (error) {
         console.error("Error al obtener los préstamos: ", error);
     }
 }
 
+// Función para cerrar sesión
+const logoutButton = document.getElementById('logoutButton');
+logoutButton.addEventListener('click', async () => {
+    try {
+        await signOut(auth);
+        window.location.href = 'login.html'; // Redirigir a la página de login
+    } catch (error) {
+        console.error("Error al cerrar sesión: ", error);
+    }
+});
+
 // Al cargar la página, asignar el evento de envío del formulario
 window.onload = () => {
-    loadLoans();
+    loadLoans(); // Llamar a la función para cargar los préstamos
     const loanForm = document.getElementById('loanForm');
     loanForm.addEventListener('submit', (event) => {
         event.preventDefault(); // Evitar el envío del formulario
@@ -205,4 +243,5 @@ window.onload = () => {
 window.registerLoan = registerLoan;
 window.viewDetails = viewDetails;
 window.makePayment = makePayment;
-window.confirmDelete = confirmDelete; // Exponer la función de confirmación de eliminación
+window.confirmDelete = confirmDelete;
+window.savePaidLoan = savePaidLoan;

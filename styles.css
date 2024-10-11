@@ -240,4 +240,17 @@ button:hover {
     .solicitar-prestamo-form button {
         font-size: 14px;
     }
+
+    .green-button {
+        background-color: green;
+        color: white;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+    }
+    
+    .green-button:hover {
+        background-color: darkgreen;
+    }
+    
 }
