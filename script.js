@@ -78,7 +78,7 @@ function displayLoans() {
         row.innerHTML = `
             <td><a href="#" onclick="confirmDelete(${index})">${loan.name}</a></td>
             <td>${loan.loanDate}</td>
-            <td>${loan.phone}</td> <!-- Mostrar el teléfono -->
+            <td>${loan.amount}</td> <!-- Mostrar el teléfono -->
             <td>${loan.totalToPay.toFixed(2)}</td>
             <td>${loan.remaining.toFixed(2)}</td>
             <td>
