@@ -28,8 +28,9 @@ async function registerLoan() {
     const loanDate = document.getElementById('loanDate').value;
     const amount = parseFloat(document.getElementById('amount').value);
     const weeks = parseInt(document.getElementById('weeks').value);
+    const phone = document.getElementById('phone').value; // Nuevo campo
 
-    if (name && loanDate && amount > 0 && weeks > 0) {
+    if (name && loanDate && amount > 0 && weeks > 0 && phone) {
         const interest = amount * 0.5;
         const totalToPay = amount + interest;
         const weeklyPayment = totalToPay / weeks;
@@ -44,6 +45,7 @@ async function registerLoan() {
             remaining: totalToPay,
             currentWeek: weeks,
             status: 'Pendiente',
+            phone, // Nuevo campo añadido
             payments: []
         };
 
@@ -67,7 +69,7 @@ function displayLoans() {
     tableBody.innerHTML = ''; // Limpiar la tabla antes de agregar nuevos datos
 
     if (loans.length === 0) {
-        tableBody.innerHTML = '<tr><td colspan="5">No hay préstamos registrados</td></tr>'; // Mostrar mensaje si no hay préstamos
+        tableBody.innerHTML = '<tr><td colspan="6">No hay préstamos registrados</td></tr>'; // Mostrar mensaje si no hay préstamos
         return;
     }
 
@@ -76,6 +78,7 @@ function displayLoans() {
         row.innerHTML = `
             <td><a href="#" onclick="confirmDelete(${index})">${loan.name}</a></td>
             <td>${loan.loanDate}</td>
+            <td>${loan.phone}</td> <!-- Mostrar el teléfono -->
             <td>${loan.totalToPay.toFixed(2)}</td>
             <td>${loan.remaining.toFixed(2)}</td>
             <td>
@@ -144,6 +147,33 @@ async function makePayment(index) {
                     status: loan.status
                 });
                 displayLoans();
+
+                // Nueva confirmación para enviar información al cliente
+                const confirmSendInfo = confirm(`¿Deseas mandar información al cliente?`);
+
+                if (confirmSendInfo) {
+                    const message = `
+Estimado/a ${loan.name},
+
+¡Gracias por su pago!
+
+Le informamos que hemos recibido su pago de la semana ${loan.weeks - loan.currentWeek} correspondiente a su préstamo.
+
+**Balance restante:** $${loan.remaining.toFixed(2)}
+
+Agradecemos su confianza en **Préstamos La Salvación** y quedamos a su disposición para cualquier consulta.
+
+¡Que tenga un excelente día!
+
+Atentamente,  
+**El equipo de Préstamos La Salvación**
+                    `;
+                    const whatsappMessage = encodeURIComponent(message.trim());
+                    const phoneNumber = loan.phone; // Asegúrate de que el número de teléfono esté en el formato correcto
+
+                    // Abrir WhatsApp con el mensaje estructurado
+                    window.open(`https://wa.me/${phoneNumber}?text=${whatsappMessage}`);
+                }
             } catch (error) {
                 console.error("Error al actualizar el préstamo: ", error);
             }
@@ -152,6 +182,7 @@ async function makePayment(index) {
         alert('No hay saldo pendiente para pagar o ya se completó el préstamo.');
     }
 }
+
 
 // Función para guardar el préstamo pagado en la colección 'paid_loans'
 async function savePaidLoan(index) {
@@ -177,6 +208,7 @@ async function addPaidLoan(loan) {
         name: loan.name,
         loanDate: loan.loanDate,
         amount: loan.amount,
+        phone: loan.phone, // Añadir teléfono al préstamo pagado
         status: 'Pagado'
     };
 
@@ -201,6 +233,7 @@ function clearForm() {
     document.getElementById('loanDate').value = '';
     document.getElementById('amount').value = '';
     document.getElementById('weeks').value = '';
+    document.getElementById('phone').value = ''; // Limpiar el campo de teléfono
 }
 
 // Función para cargar los préstamos desde Firestore

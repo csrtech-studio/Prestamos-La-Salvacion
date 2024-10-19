@@ -1,37 +1,42 @@
 /* Estilos generales para toda la página */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4; /* Color de fondo más claro */
+    background-color: #f4f4f4;
     color: #333;
     margin: 0;
     padding: 20px;
 }
 
+/* Adaptabilidad de la cabecera y el logo */
 .logo {
-    width: 300px; /* Cambia el tamaño del logo según necesites */
-    height: auto; /* Mantiene la proporción del logo */
-    margin-right: 10px; /* Espacio entre el logo y el título */
+    max-width: 100%; /* Asegura que el logo se adapte al ancho del contenedor */
+    height: auto;
+    margin-right: 10px;
 }
 
 .header {
     display: flex;
-    align-items: center; /* Alinear verticalmente */
-    margin-bottom: 20px; /* Espacio debajo del encabezado */
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap; /* Permite que los elementos se ajusten en varias líneas si es necesario */
 }
 
+/* Encabezado principal */
 h1 {
-    color: #0056b3; /* Color azul para el título */
-    font-size: 30px; /* Tamaño de fuente ajustado */
-    text-align: center; 
+    color: #0056b3;
+    font-size: 30px;
+    text-align: center;
 }
 
+/* Contenedores de formularios y listas */
 .loan-form, .loan-list, .loan-details {
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin: 20px auto;
-    max-width: 600px; /* Ancho máximo para formularios y listas */
+    max-width: 600px;
+    width: 100%; /* Asegura que ocupe el 100% del ancho disponible */
 }
 
 /* Estilos generales de los formularios */
@@ -42,33 +47,38 @@ h1 {
 }
 
 .loan-form input {
-    width: calc(100% - 20px);
-    padding: 8px;
+    width: 100%; /* Ocupa todo el ancho del contenedor */
+    padding: 15px;
     margin: 5px 0;
     border: 1px solid #ccc;
     border-radius: 4px;
+    font-size: 1.3em;
 }
 
+/* Botón */
 button {
-    display: inline-block;
+    width: 100%; /* Hace que el botón ocupe todo el ancho en pantallas pequeñas */
     padding: 10px 20px;
-    margin-top: 10px;
-    background-color: #28a745; /* Color verde */
+    background-color: #28a745;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 1em; /* Tamaño de fuente consistente */
-    transition: background-color 0.3s; /* Transición suave para el hover */
+    font-size: 1em;
+    transition: background-color 0.3s;
+    margin: 10px 0;
 }
 
+/* Efecto hover */
 button:hover {
-    background-color: #218838; /* Color verde más oscuro al pasar el mouse */
+    background-color: #218838;
 }
 
+/* Estilos para tablas */
 table {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 20px;
 }
 
 th, td {
@@ -77,23 +87,15 @@ th, td {
 }
 
 th {
-    background-color: #f7f7f7; /* Color de fondo para encabezados */
+    background-color: #f7f7f7;
     text-align: left;
 }
 
 tr:nth-child(even) {
-    background-color: #f9f9f9; /* Color de fila alterno */
+    background-color: #f9f9f9;
 }
 
-.loan-details {
-    margin: 20px 0;
-}
-
-.loan-details p {
-    font-size: 1.2em;
-    margin: 10px 0;
-}
-
+/* Lista de pagos */
 #paymentsList {
     background: white;
     border-radius: 8px;
@@ -109,148 +111,45 @@ tr:nth-child(even) {
 }
 
 #paymentsList li:last-child {
-    border-bottom: none; /* Elimina el borde del último elemento */
+    border-bottom: none;
 }
 
 /* Media Queries para adaptarse a dispositivos más pequeños */
 @media (max-width: 600px) {
     body {
-        padding: 10px; /* Reduce el padding en pantallas pequeñas */
+        padding: 10px;
     }
 
     .loan-details p {
-        font-size: 1em; /* Reduce el tamaño de la fuente en pantallas pequeñas */
+        font-size: 1em;
     }
 
-    button {
-        width: 100%; /* Botones más grandes en pantallas pequeñas */
+    .loan-form input, .loan-form button {
+        font-size: 1em;
     }
-}
 
-#searchInput {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
+    .header {
+        flex-direction: column; /* Cambia la dirección del flex para apilar elementos verticalmente */
+        text-align: center;
+    }
 
-table {
-    margin-top: 20px; /* Espacio adicional arriba de la tabla */
-}
+    h1 {
+        font-size: 24px; /* Reduce el tamaño de fuente para dispositivos móviles */
+    }
 
-button {
-    display: block; /* Hace que el botón ocupe todo el ancho */
-    margin: 20px auto; /* Centra el botón */
-}
-
-button {
-    background-color: #0056b3; /* Color de fondo azul */
-    color: white; /* Color del texto */
-    border: none; /* Sin borde */
-    padding: 10px 20px; /* Espaciado */
-    text-align: center; /* Centrar el texto */
-    text-decoration: none; /* Sin subrayado */
-    display: inline-block; /* Para el espaciado */
-    margin: 10px 0; /* Margen vertical */
-    cursor: pointer; /* Cambiar el cursor al pasar el mouse */
-    border-radius: 5px; /* Bordes redondeados */
-}
-
-button:hover {
-    background-color: #004494; /* Cambiar color al pasar el mouse */
-}
-
-/* Botón atractivo para solicitar un préstamo */
-.btn-solicitar-prestamo {
-    background-color: #4CAF50; /* Color verde atractivo */
-    color: white;
-    padding: 15px 30px;
-    font-size: 16px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    margin-top: 20px;
-    transition: background-color 0.3s ease;
-}
-
-.btn-solicitar-prestamo:hover {
-    background-color: #45a049; /* Efecto hover */
-}
-
-/* Estilo para la leyenda del login de administrador */
-.admin-info {
-    color: #ff0000; /* Rojo para que sea visible */
-    font-size: 14px;
-    margin-top: 10px;
-}
-
-/* ----------- Estilos específicos para solicitar_prestamo.html ------------ */
-
-/* Mejora del formulario de solicitud de préstamo */
-.solicitar-prestamo-form {
-    background-color: #ffffff; /* Fondo blanco para el formulario */
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
-    margin-top: 20px;
-}
-
-.solicitar-prestamo-form label {
-    display: block;
-    margin-bottom: 5px;
-    font-size: 14px;
-    color: #333;
-}
-
-.solicitar-prestamo-form input {
-    width: 100%; /* Ocupa todo el ancho del contenedor */
-    padding: 10px;
-    margin-bottom: 15px; /* Espacio entre campos */
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.solicitar-prestamo-form button {
-    width: 100%; /* Botón ocupa todo el ancho */
-    padding: 15px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    text-align: center;
-    transition: background-color 0.3s;
-}
-
-.solicitar-prestamo-form button:hover {
-    background-color: #218838;
-}
-
-@media (max-width: 600px) {
     .solicitar-prestamo-form {
         padding: 15px;
     }
-
+    
     .solicitar-prestamo-form input,
     .solicitar-prestamo-form button {
         font-size: 14px;
     }
+}
 
-    .green-button {
-        background-color: green;
-        color: white;
-        border: none;
-        padding: 10px;
-        cursor: pointer;
-    }
-    
-    .green-button:hover {
-        background-color: darkgreen;
-    }
-    
+/* Estilo para la leyenda del login de administrador */
+.admin-info {
+    color: #ff0000;
+    font-size: 14px;
+    margin-top: 10px;
 }
