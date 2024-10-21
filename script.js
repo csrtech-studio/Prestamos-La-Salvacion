@@ -1,21 +1,6 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
-import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
-
-// Configuración de Firebase
-const firebaseConfig = {
-    apiKey: "AIzaSyB2P22lorgeiQjHgnvMcguBiP4U9PZUYZs",
-    authDomain: "prestamos-la-salvacion.firebaseapp.com",
-    projectId: "prestamos-la-salvacion",
-    storageBucket: "prestamos-la-salvacion.appspot.com",
-    messagingSenderId: "326817496328",
-    appId: "1:326817496328:web:6854959ede4e0a0f8700bd"
-};
-
-// Inicializar Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const auth = getAuth();
+import { db, auth } from './firebaseConfig.js';
+import { collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
+import { signOut } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
 
 let loans = [];
 
@@ -182,7 +167,6 @@ Atentamente,
     }
 }
 
-
 // Función para guardar el préstamo pagado en la colección 'paid_loans'
 async function savePaidLoan(index) {
     const loan = loans[index];
@@ -271,9 +255,8 @@ window.onload = () => {
     });
 };
 
-// Exponer funciones al ámbito global
-window.registerLoan = registerLoan;
-window.viewDetails = viewDetails;
-window.makePayment = makePayment;
+// Exponer funciones al ámbito global para que se puedan usar en el HTML
 window.confirmDelete = confirmDelete;
+window.makePayment = makePayment;
 window.savePaidLoan = savePaidLoan;
+window.viewDetails = viewDetails;

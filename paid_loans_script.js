@@ -1,19 +1,6 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
+import { auth, db } from './firebaseConfig.js';
+import {collection, getDocs } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
 
-// Configuración de Firebase
-const firebaseConfig = {
-    apiKey: "AIzaSyB2P22lorgeiQjHgnvMcguBiP4U9PZUYZs",
-    authDomain: "prestamos-la-salvacion.firebaseapp.com",
-    projectId: "prestamos-la-salvacion",
-    storageBucket: "prestamos-la-salvation.appspot.com",
-    messagingSenderId: "326817496328",
-    appId: "1:326817496328:web:6854959ede4e0a0f8700bd"
-};
-
-// Inicializar Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
 
 // Función para cargar los préstamos pagados y mostrar el total prestado
 async function loadPaidLoans() {

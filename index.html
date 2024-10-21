@@ -9,13 +9,18 @@
 </head>
 <body>  
     <header>
-        <img src="image/logo.png" alt="Logo de Préstamos La Salvación" class="logo">
-        <button id="logoutButton">Cerrar Sesión</button>
+        <nav class="navbar">
+            <div class="logo-container">
+                <img src="image/logo.png" alt="Logo Préstamos La Salvación" class="logo">
+            </div>
+            <ul class="nav-links">
+                <li><a href="solicitudes.html">Ver Solicitudes de Préstamo</a></li>
+                <li><a href="paid_loans.html">Ver Historial de Préstamos</a></li>
+                <li><a href="#" id="logoutButton">Cerrar Sesión</a></li>
+            </ul>
+        </nav>
     </header>
-    
-    <h2>Control de Préstamos</h2>
 
-    <button onclick="window.location.href='paid_loans.html'">Ver Historial de Préstamos Pagados</button>
 
     <form id="loanForm">
         <input type="text" id="name" placeholder="Nombre" required>
