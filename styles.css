@@ -9,7 +9,7 @@ body {
 
 /* Adaptabilidad de la cabecera y el logo */
 .logo {
-    max-width: 100%; /* Asegura que el logo se adapte al ancho del contenedor */
+    max-width: 100%;
     height: auto;
     margin-right: 10px;
 }
@@ -18,7 +18,7 @@ body {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
-    flex-wrap: wrap; /* Permite que los elementos se ajusten en varias líneas si es necesario */
+    flex-wrap: wrap;
 }
 
 /* Encabezado principal */
@@ -27,13 +27,8 @@ h1 {
     font-size: 30px;
     text-align: center;
 }
-/* Estilos para el menú elegante */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-}
 
+/* Estilos para el menú elegante */
 header {
     background-color: #2c3e50;
     padding: 10px 0;
@@ -52,11 +47,6 @@ header {
 .logo-container {
     display: flex;
     align-items: center;
-}
-
-.logo {
-    width: 150px;
-    height: auto;
 }
 
 .nav-links {
@@ -85,7 +75,7 @@ header {
 }
 
 button {
-    background-color: #27ae60;
+    background-color: #0056b3;
     color: white;
     padding: 10px 15px;
     border: none;
@@ -96,11 +86,11 @@ button {
 }
 
 button:hover {
-    background-color: #2ecc71;
+    background-color: #0056b3;
 }
 
 h2 {
-    color: #34495e;
+    color: #fff;
 }
 
 form {
@@ -113,8 +103,8 @@ form label {
 }
 
 form input {
-    width: 100%;
-    padding: 8px;
+    width: 90%;
+    padding: 7px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -146,7 +136,6 @@ form button:hover {
     }
 }
 
-
 /* Contenedores de formularios y listas */
 .loan-form, .loan-list, .loan-details {
     background-color: #fff;
@@ -155,7 +144,7 @@ form button:hover {
     padding: 20px;
     margin: 20px auto;
     max-width: 600px;
-    width: 100%; /* Asegura que ocupe el 100% del ancho disponible */
+    width: 100%;
 }
 
 /* Estilos generales de los formularios */
@@ -166,7 +155,7 @@ form button:hover {
 }
 
 .loan-form input {
-    width: 100%; /* Ocupa todo el ancho del contenedor */
+    width: 100%;
     padding: 15px;
     margin: 5px 0;
     border: 1px solid #ccc;
@@ -176,7 +165,7 @@ form button:hover {
 
 /* Botón */
 button {
-    width: 100%; /* Hace que el botón ocupe todo el ancho en pantallas pequeñas */
+    width: 100%;
     padding: 10px 20px;
     background-color: #0056b3;
     color: white;
@@ -248,18 +237,18 @@ tr:nth-child(even) {
     }
 
     .header {
-        flex-direction: column; /* Cambia la dirección del flex para apilar elementos verticalmente */
+        flex-direction: column;
         text-align: center;
     }
 
     h1 {
-        font-size: 24px; /* Reduce el tamaño de fuente para dispositivos móviles */
+        font-size: 24px;
     }
 
     .solicitar-prestamo-form {
         padding: 15px;
     }
-    
+
     .solicitar-prestamo-form input,
     .solicitar-prestamo-form button {
         font-size: 14px;
@@ -311,4 +300,164 @@ tr:nth-child(even) {
 
 .btn-aceptar:hover, .btn-rechazar:hover {
     opacity: 0.8;
+}
+
+/* Estilos específicos para la página de solicitud de préstamo */
+
+/* Ajustes generales para los inputs */
+.loan-form input {
+    width: 90%;
+    max-width: 400px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+/* Estilo para el formulario de la solicitud de préstamo */
+.loan-form {
+    display: flex;
+    flex-direction: column; 
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 500px;
+}
+
+/* Estilos para el botón de enviar */
+.btn-solicitar-prestamo {
+    width: 100%;
+    max-width: 200px;
+    padding: 8px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background-color 0.3s;
+}
+
+.btn-solicitar-prestamo:hover {
+    background-color: #2980b9;
+}
+
+/* Estilo para la cabecera */
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header img {
+    max-width: 150px;
+    margin-bottom: 10px;
+}
+
+/* Media Queries para pantallas pequeñas */
+@media (max-width: 600px) {
+    .loan-form {
+        padding: 15px;
+    }
+
+    .loan-form input, .loan-form button {
+        font-size: 0.9em;
+    }
+
+    .btn-solicitar-prestamo {
+        font-size: 1em;
+    }
+
+    .header img {
+        max-width: 120px;
+    }
+}
+
+/* Estilos del formulario de login */
+form.login {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+h3 {
+    font-size: 24px;
+    color: #34495e;
+    margin-bottom: 20px;
+}
+
+h4 {
+    font-size: 24px;
+    color: #34495e;
+    margin-bottom: 20px;
+}
+/* Estilo de los campos de texto */
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+/* Botón de envío */
+button {
+    width: 100%;
+    padding: 15px;
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #2ecc71;
+}
+
+/* Estilo del enlace de contraseña olvidada */
+p a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+p a:hover {
+    text-decoration: underline;
+}
+
+/* Información de administradores */
+.admin-info {
+    color: #e74c3c;
+    font-size: 12px;
+    margin-top: 10px;
+}
+
+/* Estilos para pantallas pequeñas */
+@media (max-width: 600px) {
+    form {
+        padding: 20px;
+    }
 }

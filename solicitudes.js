@@ -30,11 +30,10 @@ onValue(loansRef, (snapshot) => {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${loanData.nombre}</td>
-            <td>${loanData.direccion}</td>
-            <td>${loanData.telefono}</td>
+            
+            
             <td>${loanData.monto}</td>
             <td>${loanData.fecha}</td>
-            <td><a href="${loanData.ine}" target="_blank">Ver INE</a></td>
             <td class="estatus">${estatus}</td>
             <td>
                 <button class="btn-aceptar" data-id="${loanId}" data-telefono="${loanData.telefono}" ${estatus !== 'En revisión' ? 'disabled' : ''}>Aceptar</button>

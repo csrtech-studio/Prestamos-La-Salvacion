@@ -1,0 +1,135 @@
+/* Estilos generales */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f7fa;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Estilos del encabezado */
+header {
+    margin-bottom: 30px;
+}
+
+.logo {
+    max-width: 500px;
+    height: auto;
+}
+
+/* Botón de solicitar préstamo */
+.btn-solicitar-prestamo {
+    display: block;
+    text-align: center;
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-solicitar-prestamo:hover {
+    background-color: #2980b9;
+}
+
+/* Estilos del formulario */
+form {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+h3 {
+    font-size: 24px;
+    color: #34495e;
+    margin-bottom: 20px;
+}
+
+/* Estilo de los campos de texto */
+input[type="email"],
+input[type="password"] {
+    width: 90%;
+    padding: 15px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+/* Botón de envío */
+button {
+    width: 100%;
+    padding: 15px;
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #2ecc71;
+}
+
+/* Estilo del enlace de contraseña olvidada */
+p {
+    font-size: 14px;
+    color: #7f8c8d;
+    margin-top: 20px;
+}
+
+p a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+p a:hover {
+    text-decoration: underline;
+}
+
+/* Información de administradores */
+.admin-info {
+    color: #e74c3c;
+    font-size: 12px;
+    margin-top: 10px;
+}
+
+/* Estilos para pantallas pequeñas */
+@media (max-width: 600px) {
+    body {
+        padding: 15px;
+    }
+
+    form {
+        padding: 20px;
+    }
+
+    .btn-solicitar-prestamo {
+        font-size: 16px;
+    }
+}
