@@ -1,0 +1,21 @@
+{
+    "name": "Prestamos la Salvacion",
+    "short_name": "PLS",
+    "description": "Una Pagina de prestamos personales",
+    "start_url": "/prestamos-la-salvacion/index.html",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#333333",
+    "icons": [
+      {
+        "src": "/prestamos-la-salvacion/image/icons/icon-192x192.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      },
+      {
+        "src": "/prestamos-la-salvacion/image/icons/icon-512x512.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      }
+    ]
+  }

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del Solicitante - Préstamos La Salvación</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" href="image/favicon.ico" type="image/x-icon">
+    <script type="module" src="js/detalles.js"></script>
+</head>
+<body>
+    <header class="header">
+        <img src="image/logo.png" alt="Logo de Préstamos La Salvación" class="logo">
+        <h2>Detalles del Solicitante</h2>
+        <button onclick="window.location.href='solicitudes.html'">Volver a Solicitudes</button>
+    </header>
+
+    <div class="details">
+        <p><strong>Nombre:</strong> <span id="nombre"></span></p>
+        <p><strong>Dirección:</strong> <span id="direccion"></span></p>
+        <p><strong>Teléfono:</strong> <span id="telefono"></span></p>
+        <p><strong>Monto:</strong> <span id="monto"></span></p>
+        <p><strong>Fecha de Solicitud:</strong> <span id="fecha"></span></p>
+        <p><strong>Estatus:</strong> <span id="estatus"></span></p>
+        <div class="ine-container">
+            <h3>INE:</h3>
+            <img id="ine-image" src="" alt="Imagen de la INE" style="width: 250px; height: 150px;">
+        </div>
+    </div>
+</body>
+</html>
