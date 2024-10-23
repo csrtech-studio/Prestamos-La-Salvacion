@@ -1,28 +1,28 @@
 const VERSION = "v01";
-const CACHE_NAME = `prestamos-la-salvacion ${VERSION}`;
+const CACHE_NAME = `Prestamos-La-Salvacion ${VERSION}`;
 const appshell = [
-    '/prestamos-la-salvacion/',
-    '/prestamos-la-salvacion/index.html',
-    '/prestamos-la-salvacion/details.html',
-    '/prestamos-la-salvacion/forgot_password.html',
-    '/prestamos-la-salvacion/login.html',
-    '/prestamos-la-salvacion/paid_loans.html',
-    '/prestamos-la-salvacion/solicitar_prestamo.html',
-    '/prestamos-la-salvacion/solicitudes.html',
-    '/prestamos-la-salvacion/css/style.css',
-    '/prestamos-la-salvacion/css/style_log.css',
-    '/prestamos-la-salvacion/image/logo.png',
-    '/prestamos-la-salvacion/image/icons/favicon.ico',
-    '/prestamos-la-salvacion/js/details.js',
-    '/prestamos-la-salvacion/js/firebaseConfig.js',
-    '/prestamos-la-salvacion/js/forgot_password_script.js',
-    '/prestamos-la-salvacion/js/login_script.js',
-    '/prestamos-la-salvacion/js/paid_loans_script.js',
-    '/prestamos-la-salvacion/js/script.js',
-    '/prestamos-la-salvacion/js/solicitar_prestamo.js',
-    '/prestamos-la-salvacion/js/solicitar_prestamo.js'
+    '/Prestamos-La-Salvacion/',
+    '/Prestamos-La-Salvacion/index.html',
+    '/Prestamos-La-Salvacion/details.html',
+    '/Prestamos-La-Salvacion/forgot_password.html',
+    '/Prestamos-La-Salvacion/login.html',
+    '/Prestamos-La-Salvacion/paid_loans.html',
+    '/Prestamos-La-Salvacion/solicitar_prestamo.html',
+    '/Prestamos-La-Salvacion/solicitudes.html',
+    '/Prestamos-La-Salvacion/css/style.css',
+    '/Prestamos-La-Salvacion/css/style_log.css',
+    '/Prestamos-La-Salvacion/image/logo.png',
+    '/Prestamos-La-Salvacion/image/icons/favicon.ico',
+    '/Prestamos-La-Salvacion/js/details.js',
+    '/Prestamos-La-Salvacion/js/firebaseConfig.js',
+    '/Prestamos-La-Salvacion/js/forgot_password_script.js',
+    '/Prestamos-La-Salvacion/js/login_script.js',
+    '/Prestamos-La-Salvacion/js/paid_loans_script.js',
+    '/Prestamos-La-Salvacion/js/script.js',
+    '/Prestamos-La-Salvacion/js/solicitar_prestamo.js',
+    '/Prestamos-La-Salvacion/js/solicitar_prestamo.js'
 ];
-
+// Instalar el Service Worker
 self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(CACHE_NAME)
@@ -34,6 +34,7 @@ self.addEventListener('install', event => {
     );
 });
 
+// Activar el Service Worker y gestionar cachés antiguos
 self.addEventListener('activate', event => {
     event.waitUntil(
         caches.keys().then(cacheNames => {
@@ -46,5 +47,18 @@ self.addEventListener('activate', event => {
                 })
             );
         })
+    );
+});
+
+// Interceptar las solicitudes de red para servir desde la caché
+self.addEventListener('fetch', event => {
+    event.respondWith(
+        caches.match(event.request)
+            .then(response => {
+                // Retornar la respuesta de la caché si está disponible, o hacer la solicitud a la red
+                return response || fetch(event.request);
+            }).catch(err => {
+                console.error('Error fetching from cache or network:', err);
+            })
     );
 });

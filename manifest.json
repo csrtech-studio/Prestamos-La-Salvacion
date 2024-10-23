@@ -1,21 +1,26 @@
 {
-    "name": "Prestamos la Salvacion",
-    "short_name": "PLS",
-    "description": "Una Pagina de prestamos personales",
-    "start_url": "/prestamos-la-salvacion/index.html",
-    "display": "standalone",
-    "background_color": "#ffffff",
-    "theme_color": "#333333",
-    "icons": [
-      {
-        "src": "/prestamos-la-salvacion/image/icons/icon-192x192.png",
-        "type": "image/png",
-        "sizes": "192x192"
-      },
-      {
-        "src": "/prestamos-la-salvacion/image/icons/icon-512x512.png",
-        "type": "image/png",
-        "sizes": "512x512"
-      }
-    ]
-  }
+  "name": "Préstamos La Salvación",
+  "short_name": "Préstamos",
+  "start_url": "/Prestamos-La-Salvacion/index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4CAF50",
+  "description": "App para gestionar préstamos personales",
+  "icons": [
+    {
+      "src": "/Prestamos-La-Salvacion/image/icons/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/Prestamos-La-Salvacion/image/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/Prestamos-La-Salvacion/image/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
