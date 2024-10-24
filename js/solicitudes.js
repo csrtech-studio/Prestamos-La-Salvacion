@@ -75,7 +75,7 @@ function actualizarEstatus(loanId, nuevoEstatus) {
 
 
 // Obtener token de FCM
-getToken(messaging, { vapidKey: 'BMsnBa0wnWWxOiBAWhCtrFq34nMpuzmECAI5rflHqoq_hXZnxxAucBG-qWRNOJ5G5WqE6R1C1Nzdy83ydEy7kyU' }) // Reemplaza con tu clave VAPID
+getToken(messaging, { vapidKey: '16Y4VUHWCW6gAM2ivLLoQKMN4pzUD5D3nZVO3MGm5HE' }) // Reemplaza con tu clave VAPID
 .then((currentToken) => {
     if (currentToken) {
         console.log('Token FCM obtenido:', currentToken);
