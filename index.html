@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="manifest" href="/prestamos-la-salvacion/manifest.json">
-    <meta name="theme-color" content="#4CAF50">
+    <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="css/styles.css">
     <link rel="icon" href="image/favicon.ico" type="image/x-icon">
     <title>Préstamos La Salvación</title>
@@ -22,7 +21,6 @@
             </ul>
         </nav>
     </header>
-
 
     <form id="loanForm">
         <input type="text" id="name" placeholder="Nombre" required>
@@ -50,6 +48,8 @@
     <script type="module" src="https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js"></script>
     <script type="module" src="https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js"></script>
     <script type="module" src="js/script.js"></script>
+    <script src="js/install_pwa.js"></script> <!-- Agregando el nuevo archivo JavaScript -->
+
     <script type="module">
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
 
@@ -93,17 +93,8 @@
             inactivityTime = 0;
         }
     </script>
+<script src="/js/register-sw.js"></script>
 
-<script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/prestamos-la-salvacion/service-worker.js')
-        .then(registration => {
-          console.log('Service Worker registered with scope:', registration.scope);
-        }).catch(error => {
-          console.error('Service Worker registration failed:', error);
-        });
-    }
-  </script>
-  
+
 </body>
 </html>
