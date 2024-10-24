@@ -41,5 +41,32 @@ onValue(loansRef, (snapshot) => {
         loanTableBody.appendChild(row);
     });
 
-    // Añadir eventos a los botones (aceptar/rechazar) como antes...
+    // Añadir eventos a los botones (aceptar/rechazar)
+    const aceptarButtons = document.querySelectorAll('.btn-aceptar');
+    aceptarButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const loanId = button.getAttribute('data-id');
+            actualizarEstatus(loanId, 'Aprobado');
+        });
+    });
+
+    const rechazarButtons = document.querySelectorAll('.btn-rechazar');
+    rechazarButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const loanId = button.getAttribute('data-id');
+            actualizarEstatus(loanId, 'Rechazado');
+        });
+    });
 });
+
+// Función para actualizar el estado del préstamo
+function actualizarEstatus(loanId, nuevoEstatus) {
+    const loanRef = ref(database, `prestamos/${loanId}`);
+    update(loanRef, { estatus: nuevoEstatus })
+        .then(() => {
+            console.log(`Estado del préstamo ${loanId} actualizado a ${nuevoEstatus}`);
+        })
+        .catch((error) => {
+            console.error("Error al actualizar el estado del préstamo: ", error);
+        });
+}

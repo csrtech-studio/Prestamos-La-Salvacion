@@ -461,3 +461,13 @@ p a:hover {
         padding: 20px;
     }
 }
+
+.notification {
+    background-color: #ffcc00; /* Color de fondo */
+    color: #333; /* Color del texto */
+    padding: 10px;
+    margin: 15px 0;
+    border: 1px solid #ff9900;
+    border-radius: 5px;
+    text-align: center;
+}

@@ -27,7 +27,7 @@
         <input type="date" id="loanDate" required>
         <input type="number" id="amount" placeholder="Cantidad" required>
         <input type="number" id="weeks" placeholder="Semanas" required>
-        <input type="tel" id="phone" placeholder="celular" required>
+        <input type="tel" id="phone" placeholder="Celular" required>
         <button type="submit">Registrar Préstamo</button>
     </form>
 
@@ -44,26 +44,40 @@
         <tbody id="loanTableBody"></tbody>
     </table>
 
+    <!-- Firebase SDKs -->
     <script type="module" src="https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js"></script>
     <script type="module" src="https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js"></script>
     <script type="module" src="https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js"></script>
-    <script type="module" src="js/script.js"></script>
-    <script src="js/install_pwa.js"></script> <!-- Agregando el nuevo archivo JavaScript -->
 
+    <!-- Script Principal -->
+    <script type="module" src="js/script.js"></script>
+
+    <!-- Instalación de PWA -->
+    <script src="js/install_pwa.js"></script>
+
+    <!-- Service Worker para notificaciones push -->
+    <script src="/js/register-sw.js"></script>
+
+    <!-- Lógica para autenticación, inactividad y notificaciones -->
     <script type="module">
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
+        import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
 
         const auth = getAuth();
+        const db = getFirestore();
 
+        // Función para cargar préstamos si el usuario está autenticado
         onAuthStateChanged(auth, (user) => {
             if (!user) {
                 window.location.href = 'login.html'; // Redirigir a login si no está autenticado
             } else {
                 loadLoans(); // Cargar préstamos solo si el usuario está autenticado
                 startInactivityTimer();
+                checkForNewLoans(); // Verificar nuevas solicitudes en tiempo real
             }
         });
 
+        // Función para cerrar sesión
         async function logout() {
             try {
                 await signOut(auth);
@@ -73,6 +87,7 @@
             }
         }
 
+        // Temporizador de inactividad
         let inactivityTime = 0;
 
         function startInactivityTimer() {
@@ -92,9 +107,35 @@
         function resetTimer() {
             inactivityTime = 0;
         }
+
+        // Solicitar permiso de notificaciones
+        if (Notification.permission !== "granted") {
+            Notification.requestPermission();
+        }
+
+        // Escuchar nuevas solicitudes de préstamo y enviar notificación
+        function checkForNewLoans() {
+            const loanCollection = collection(db, "solicitudes");
+
+            onSnapshot(loanCollection, (snapshot) => {
+                snapshot.docChanges().forEach((change) => {
+                    if (change.type === "added") {
+                        const newLoan = change.doc.data();
+                        showNotification(newLoan);
+                    }
+                });
+            });
+        }
+
+        // Mostrar notificación
+        function showNotification(loan) {
+            if (Notification.permission === "granted") {
+                new Notification("Nueva Solicitud de Préstamo", {
+                    body: `Se ha recibido una solicitud de ${loan.nombre}`,
+                    icon: "/image/logo.png"
+                });
+            }
+        }
     </script>
-<script src="/js/register-sw.js"></script>
-
-
 </body>
 </html>
