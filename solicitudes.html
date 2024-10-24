@@ -6,6 +6,11 @@
     <title>Solicitudes de Préstamos - Préstamos La Salvación</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="icon" href="image/favicon.ico" type="image/x-icon">
+    <!-- Agregar Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.16.0/firebase-messaging.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.16.0/firebase-database.js"></script>
+    <script src="js/solicitudes.js" type="module"></script>
 </head>
 <body>
     <header class="header">
@@ -28,11 +33,18 @@
         </tbody>
     </table>
 
-    <!-- Firebase SDKs -->
-    <script type="module" src="https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js"></script>
-    <script type="module" src="https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js"></script>
-
-    <!-- Script de manejo de solicitudes -->
-    <script type="module" src="js/solicitudes.js"></script>
+    <!-- Agregar un archivo de service worker para las notificaciones -->
+    <script>
+        // Aquí se registra el service worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/firebase-messaging-sw.js')
+            .then(function(registration) {
+                console.log('Service Worker registrado con éxito:', registration);
+            }).catch(function(err) {
+                console.log('Error al registrar el Service Worker:', err);
+            });
+        }
+    </script>
 </body>
 </html>
+

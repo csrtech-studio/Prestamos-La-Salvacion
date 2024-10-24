@@ -1,5 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
 import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-database.js";
+import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-messaging.js";
+
 
 // Configuración de Firebase
 const firebaseConfig = {
@@ -70,3 +72,30 @@ function actualizarEstatus(loanId, nuevoEstatus) {
             console.error("Error al actualizar el estado del préstamo: ", error);
         });
 }
+
+
+// Obtener token de FCM
+getToken(messaging, { vapidKey: 'BMsnBa0wnWWxOiBAWhCtrFq34nMpuzmECAI5rflHqoq_hXZnxxAucBG-qWRNOJ5G5WqE6R1C1Nzdy83ydEy7kyU' }) // Reemplaza con tu clave VAPID
+.then((currentToken) => {
+    if (currentToken) {
+        console.log('Token FCM obtenido:', currentToken);
+        // Envía este token a tu servidor para enviar notificaciones
+    } else {
+        console.log('No se pudo obtener el token. Asegúrate de habilitar las notificaciones.');
+    }
+}).catch((err) => {
+    console.log('Error al obtener el token:', err);
+});
+
+// Manejar mensajes cuando la página está abierta
+onMessage(messaging, (payload) => {
+    console.log('Mensaje recibido. ', payload);
+    // Personaliza aquí la notificación que aparece
+    const notificationTitle = payload.notification.title;
+    const notificationOptions = {
+        body: payload.notification.body,
+    };
+
+    // Muestra la notificación
+    new Notification(notificationTitle, notificationOptions);
+});
