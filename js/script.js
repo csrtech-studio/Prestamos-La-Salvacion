@@ -1,11 +1,41 @@
 import { db, auth } from './firebaseConfig.js';
 import { collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
-import { signOut } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
+import { signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
 
 let loans = [];
+const deleteKey = "salvacion"; // Almacenada en texto plano por simplicidad
+let inactivityTimer;
 
-// Clave de eliminación (encriptada)
-const deleteKey = "salvacion"; // Almacenada en texto plano por simplicidad, puedes encriptarla si es necesario
+// Función para verificar la autenticación del usuario
+function checkAuthentication() {
+    onAuthStateChanged(auth, (user) => {
+        if (!user) {
+            window.location.href = 'login.html'; // Redirigir al login si no está autenticado
+        }
+    });
+}
+
+// Función para cerrar sesión
+function autoLogout() {
+    signOut(auth).then(() => {
+        window.location.href = 'login.html'; // Redirigir a la página de login
+    }).catch((error) => {
+        console.error("Error al cerrar sesión: ", error);
+    });
+}
+
+// Función para reiniciar el temporizador de inactividad
+function resetTimer() {
+    clearTimeout(inactivityTimer);
+    inactivityTimer = setTimeout(autoLogout, 60000); // 60000 ms = 1 minuto
+}
+
+// Asignar eventos para reiniciar el temporizador
+window.addEventListener('mousemove', resetTimer);
+window.addEventListener('keypress', resetTimer);
+window.addEventListener('click', resetTimer);
+window.addEventListener('scroll', resetTimer);
+
 
 // Función para registrar un préstamo
 async function registerLoan() {
@@ -255,8 +285,22 @@ window.onload = () => {
     });
 };
 
+
+// Al cargar la página, verificar la autenticación
+window.onload = () => {
+    checkAuthentication(); // Verificar la autenticación
+    loadLoans(); // Cargar los préstamos
+    const loanForm = document.getElementById('loanForm');
+    loanForm.addEventListener('submit', (event) => {
+        event.preventDefault(); // Evitar el envío del formulario
+        registerLoan(); // Llamar a la función para registrar el préstamo
+    });
+};
+
 // Exponer funciones al ámbito global para que se puedan usar en el HTML
 window.confirmDelete = confirmDelete;
 window.makePayment = makePayment;
 window.savePaidLoan = savePaidLoan;
 window.viewDetails = viewDetails;
+
+

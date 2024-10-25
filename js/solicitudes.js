@@ -1,7 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
 import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-database.js";
-import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-messaging.js";
-
 
 // Configuración de Firebase
 const firebaseConfig = {
@@ -44,11 +42,18 @@ onValue(loansRef, (snapshot) => {
     });
 
     // Añadir eventos a los botones (aceptar/rechazar)
+    agregarEventosBotones();
+});
+
+// Función para agregar eventos a los botones
+function agregarEventosBotones() {
     const aceptarButtons = document.querySelectorAll('.btn-aceptar');
     aceptarButtons.forEach(button => {
         button.addEventListener('click', () => {
             const loanId = button.getAttribute('data-id');
-            actualizarEstatus(loanId, 'Aprobado');
+            const telefono = button.getAttribute('data-telefono');
+            console.log('Aceptar botón presionado para préstamo:', loanId, 'Teléfono:', telefono); // Mensaje de depuración
+            actualizarEstatus(loanId, 'Aprobado', telefono);
         });
     });
 
@@ -56,46 +61,48 @@ onValue(loansRef, (snapshot) => {
     rechazarButtons.forEach(button => {
         button.addEventListener('click', () => {
             const loanId = button.getAttribute('data-id');
-            actualizarEstatus(loanId, 'Rechazado');
+            const telefono = button.getAttribute('data-telefono');
+            console.log('Rechazar botón presionado para préstamo:', loanId, 'Teléfono:', telefono); // Mensaje de depuración
+            actualizarEstatus(loanId, 'Rechazado', telefono);
         });
     });
-});
+}
 
-// Función para actualizar el estado del préstamo
-function actualizarEstatus(loanId, nuevoEstatus) {
+// Función para actualizar el estado del préstamo y abrir WhatsApp
+function actualizarEstatus(loanId, nuevoEstatus, telefono) {
     const loanRef = ref(database, `prestamos/${loanId}`);
     update(loanRef, { estatus: nuevoEstatus })
         .then(() => {
             console.log(`Estado del préstamo ${loanId} actualizado a ${nuevoEstatus}`);
+
+            // Mensajes según el estatus
+            let mensaje;
+            if (nuevoEstatus === 'Aprobado') {
+                mensaje = encodeURIComponent(
+                    `Estimado cliente, su préstamo ha sido aprobado. Por favor, proporcione su número de tarjeta. El monto será depositado en un lapso de 2 horas. Agradecemos su confianza en nosotros.`
+                );
+            } else {
+                mensaje = encodeURIComponent(
+                    `Estimado cliente, lamentamos informarle que su solicitud de préstamo ha sido rechazada. Le pedimos disculpas por los inconvenientes y le sugerimos que lo intente nuevamente más adelante. Agradecemos su comprensión.`
+                );
+            }
+
+            const urlWhatsApp = `https://wa.me/${telefono}?text=${mensaje}`;
+            console.log('Abrir WhatsApp con URL:', urlWhatsApp); // Mensaje de depuración
+            window.open(urlWhatsApp, '_blank');
+
+            // Desaparecer los botones
+            ocultarBotones(loanId);
         })
         .catch((error) => {
             console.error("Error al actualizar el estado del préstamo: ", error);
         });
 }
 
-
-// Obtener token de FCM
-getToken(messaging, { vapidKey: '16Y4VUHWCW6gAM2ivLLoQKMN4pzUD5D3nZVO3MGm5HE' }) // Reemplaza con tu clave VAPID
-.then((currentToken) => {
-    if (currentToken) {
-        console.log('Token FCM obtenido:', currentToken);
-        // Envía este token a tu servidor para enviar notificaciones
-    } else {
-        console.log('No se pudo obtener el token. Asegúrate de habilitar las notificaciones.');
-    }
-}).catch((err) => {
-    console.log('Error al obtener el token:', err);
-});
-
-// Manejar mensajes cuando la página está abierta
-onMessage(messaging, (payload) => {
-    console.log('Mensaje recibido. ', payload);
-    // Personaliza aquí la notificación que aparece
-    const notificationTitle = payload.notification.title;
-    const notificationOptions = {
-        body: payload.notification.body,
-    };
-
-    // Muestra la notificación
-    new Notification(notificationTitle, notificationOptions);
-});
+// Función para ocultar los botones después de la acción
+function ocultarBotones(loanId) {
+    const btnAceptar = document.querySelector(`.btn-aceptar[data-id="${loanId}"]`);
+    const btnRechazar = document.querySelector(`.btn-rechazar[data-id="${loanId}"]`);
+    if (btnAceptar) btnAceptar.style.display = 'none';
+    if (btnRechazar) btnRechazar.style.display = 'none';
+}
