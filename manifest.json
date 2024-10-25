@@ -1,7 +1,8 @@
 {
   "name": "Préstamos La Salvación",
   "short_name": "Préstamos",
-  "start_url": "/Prestamos-La-Salvacion/index.html",
+  "start_url": "./index.html"
+,
   "display": "standalone",
   "background_color": "#FFFFFF",
   "theme_color": "#4CAF50",
