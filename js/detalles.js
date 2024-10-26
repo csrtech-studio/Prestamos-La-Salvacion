@@ -35,15 +35,20 @@ get(loanRef).then((snapshot) => {
         document.getElementById('fecha').textContent = loanData.fecha;
         document.getElementById('estatus').textContent = loanData.estatus || 'En revisión';
 
-        // Obtener la URL de la imagen de la INE
-        if (loanData.ineUrl) { // Verifica si existe la URL en la base de datos
-            const ineImageRef = storageRef(storage, loanData.ineUrl);
+        // Verificar si existe la referencia de la imagen INE en la base de datos
+        if (loanData.ine) {
+            // Obtener la referencia correcta de la imagen en Firebase Storage
+            const ineImageRef = storageRef(storage, loanData.ine);
             getDownloadURL(ineImageRef).then((url) => {
                 // Asignar la URL al elemento de imagen
                 document.getElementById('ine-image').src = url;
             }).catch((error) => {
                 console.error('Error al obtener la URL de la INE:', error);
+                document.getElementById('ine-image').alt = 'No se pudo cargar la imagen de la INE.';
             });
+        } else {
+            console.log('No se encontró ninguna referencia de INE en la base de datos.');
+            document.getElementById('ine-image').alt = 'No se encontró ninguna imagen de la INE.';
         }
     } else {
         alert('No se encontraron detalles del préstamo.');
