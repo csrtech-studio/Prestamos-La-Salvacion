@@ -27,7 +27,7 @@ function autoLogout() {
 // Función para reiniciar el temporizador de inactividad
 function resetTimer() {
     clearTimeout(inactivityTimer);
-    inactivityTimer = setTimeout(autoLogout, 60000); // 60000 ms = 1 minuto
+    inactivityTimer = setTimeout(autoLogout, 3600000); // 60000 ms = 1 minuto
 }
 
 // Asignar eventos para reiniciar el temporizador
@@ -185,8 +185,10 @@ Atentamente,
                     const whatsappMessage = encodeURIComponent(message.trim());
                     const phoneNumber = loan.phone; // Asegúrate de que el número de teléfono esté en el formato correcto
 
-                    // Abrir WhatsApp con el mensaje estructurado
-                    window.open(`https://wa.me/${phoneNumber}?text=${whatsappMessage}`);
+                    // Abrir WhatsApp con un retraso en Safari
+                    setTimeout(() => {
+                        window.location.href = `https://wa.me/${phoneNumber}?text=${whatsappMessage}`;
+                    }, 500);
                 }
             } catch (error) {
                 console.error("Error al actualizar el préstamo: ", error);

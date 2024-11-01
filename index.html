@@ -86,28 +86,6 @@
                 console.error("Error al cerrar sesión: ", error);
             }
         }
-
-        // Temporizador de inactividad
-        let inactivityTime = 0;
-
-        function startInactivityTimer() {
-            window.onload = resetTimer;
-            window.onmousemove = resetTimer;
-            window.onkeypress = resetTimer;
-            window.onscroll = resetTimer;
-
-            setInterval(() => {
-                inactivityTime++;
-                if (inactivityTime >= 30) { // 30 minutos
-                    logout();
-                }
-            }, 60000); // 60000 ms = 1 minuto
-        }
-
-        function resetTimer() {
-            inactivityTime = 0;
-        }
-
         // Solicitar permiso de notificaciones
         if (Notification.permission !== "granted") {
             Notification.requestPermission();
