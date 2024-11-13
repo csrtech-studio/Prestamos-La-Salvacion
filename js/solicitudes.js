@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
-import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-database.js";
+import { getDatabase, ref, onValue, update, remove } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-database.js";
 
 // Configuración de Firebase
 const firebaseConfig = {
@@ -25,7 +25,7 @@ onValue(loansRef, (snapshot) => {
     snapshot.forEach((childSnapshot) => {
         const loanData = childSnapshot.val();
         const loanId = childSnapshot.key;
-        const estatus = loanData.estatus || 'En revisión'; // Valor por defecto
+        const estatus = loanData.estatus || 'En revisión';
 
         const row = document.createElement('tr');
         row.innerHTML = `
@@ -34,75 +34,85 @@ onValue(loansRef, (snapshot) => {
             <td>${loanData.fecha}</td>
             <td class="estatus">${estatus}</td>
             <td>
-                <button class="btn-aceptar" data-id="${loanId}" data-telefono="${loanData.telefono}" ${estatus !== 'En revisión' ? 'disabled' : ''}>Aceptar</button>
-                <button class="btn-rechazar" data-id="${loanId}" data-telefono="${loanData.telefono}" ${estatus !== 'En revisión' ? 'disabled' : ''}>Rechazar</button>
+                <select class="accion-select" data-id="${loanId}" data-telefono="${loanData.telefono}" ${estatus !== 'En revisión' ? 'disabled' : ''}>
+                    <option value="">Seleccione</option>
+                    <option value="Aprobado">Aceptar</option>
+                    <option value="Rechazado">Rechazar</option>
+                </select>
+                <button class="btn-confirmar" data-id="${loanId}">${estatus === 'En revisión' ? 'Confirmar' : 'Eliminar Registro'}</button>
             </td>
         `;
         loanTableBody.appendChild(row);
     });
 
-    // Añadir eventos a los botones (aceptar/rechazar)
-    agregarEventosBotones();
+    // Añadir eventos a los elementos
+    agregarEventos();
 });
 
 // Función para agregar eventos a los botones
-function agregarEventosBotones() {
-    const aceptarButtons = document.querySelectorAll('.btn-aceptar');
-    aceptarButtons.forEach(button => {
+function agregarEventos() {
+    document.querySelectorAll('.btn-confirmar').forEach(button => {
         button.addEventListener('click', () => {
             const loanId = button.getAttribute('data-id');
-            const telefono = button.getAttribute('data-telefono');
-            console.log('Aceptar botón presionado para préstamo:', loanId, 'Teléfono:', telefono); // Mensaje de depuración
-            actualizarEstatus(loanId, 'Aprobado', telefono);
-        });
-    });
-
-    const rechazarButtons = document.querySelectorAll('.btn-rechazar');
-    rechazarButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const loanId = button.getAttribute('data-id');
-            const telefono = button.getAttribute('data-telefono');
-            console.log('Rechazar botón presionado para préstamo:', loanId, 'Teléfono:', telefono); // Mensaje de depuración
-            actualizarEstatus(loanId, 'Rechazado', telefono);
+            const select = document.querySelector(`.accion-select[data-id="${loanId}"]`);
+            const accion = select.value;
+            const telefono = select.getAttribute('data-telefono');
+            
+            if (select.disabled) {
+                // Si el select está deshabilitado, eliminar el registro
+                eliminarSolicitud(loanId);
+            } else if (accion) {
+                // Si hay una acción seleccionada, actualizar el estatus
+                actualizarEstatus(loanId, accion, telefono, button);
+            } else {
+                alert("Seleccione una acción antes de confirmar.");
+            }
         });
     });
 }
 
 // Función para actualizar el estado del préstamo y abrir WhatsApp
-function actualizarEstatus(loanId, nuevoEstatus, telefono) {
+function actualizarEstatus(loanId, nuevoEstatus, telefono, button) {
     const loanRef = ref(database, `prestamos/${loanId}`);
     update(loanRef, { estatus: nuevoEstatus })
         .then(() => {
-            console.log(`Estado del préstamo ${loanId} actualizado a ${nuevoEstatus}`);
-
-            // Mensajes según el estatus
             let mensaje;
             if (nuevoEstatus === 'Aprobado') {
                 mensaje = encodeURIComponent(
-                    `Estimado cliente, su préstamo ha sido aprobado. Por favor, proporcione su número de tarjeta. El monto será depositado en un lapso de 2 horas. Agradecemos su confianza en nosotros.`
+                    `Estimado cliente, su préstamo ha sido aprobado. Proporcione su número de tarjeta.`
                 );
             } else {
                 mensaje = encodeURIComponent(
-                    `Estimado cliente, lamentamos informarle que su solicitud de préstamo ha sido rechazada. Le pedimos disculpas por los inconvenientes y le sugerimos que lo intente nuevamente más adelante. Agradecemos su comprensión.`
+                    `Estimado cliente, lamentamos informarle que su solicitud de préstamo ha sido rechazada.`
                 );
             }
+            window.open(`https://wa.me/${telefono}?text=${mensaje}`, '_blank');
 
-            const urlWhatsApp = `https://wa.me/${telefono}?text=${mensaje}`;
-            console.log('Abrir WhatsApp con URL:', urlWhatsApp); // Mensaje de depuración
-            window.open(urlWhatsApp, '_blank');
-
-            // Desaparecer los botones
-            ocultarBotones(loanId);
+            // Cambiar el texto del botón a "Eliminar Registro"
+            button.textContent = "Eliminar Registro";
+            button.classList.add('btn-eliminar');
+            button.removeEventListener('click', confirmarAccion);
+            button.addEventListener('click', () => eliminarSolicitud(loanId));
+            
+            // Deshabilitar el combo box después de la acción
+            const select = document.querySelector(`.accion-select[data-id="${loanId}"]`);
+            select.disabled = true;
         })
         .catch((error) => {
             console.error("Error al actualizar el estado del préstamo: ", error);
         });
 }
 
-// Función para ocultar los botones después de la acción
-function ocultarBotones(loanId) {
-    const btnAceptar = document.querySelector(`.btn-aceptar[data-id="${loanId}"]`);
-    const btnRechazar = document.querySelector(`.btn-rechazar[data-id="${loanId}"]`);
-    if (btnAceptar) btnAceptar.style.display = 'none';
-    if (btnRechazar) btnRechazar.style.display = 'none';
+// Función para eliminar la solicitud de préstamo
+function eliminarSolicitud(loanId) {
+    if (confirm("¿Está seguro de que desea eliminar esta solicitud de préstamo?")) {
+        const loanRef = ref(database, `prestamos/${loanId}`);
+        remove(loanRef)
+            .then(() => {
+                alert("La solicitud de préstamo ha sido eliminada.");
+            })
+            .catch((error) => {
+                console.error("Error al eliminar la solicitud: ", error);
+            });
+    }
 }
