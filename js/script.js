@@ -173,7 +173,7 @@ Estimado/a ${loan.name},
 
 Le informamos que hemos recibido su pago de la semana ${loan.weeks - loan.currentWeek} correspondiente a su préstamo.
 
-**Balance restante:** $${loan.remaining.toFixed(2)}
+**Balance restante:** $ ${loan.remaining.toFixed(2)}
 
 Agradecemos su confianza en **Préstamos La Salvación** y quedamos a su disposición para cualquier consulta.
 
