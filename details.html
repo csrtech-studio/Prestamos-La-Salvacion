@@ -6,26 +6,38 @@
     <title>Detalles del Préstamo</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="icon" href="image/favicon.ico" type="image/x-icon">
-</head>
+</head>  
+
 <body>
     <h1 id="loanName">Detalles del Préstamo</h1>
+    <p id="loanPhone" class="phone-container">
+        <span>Teléfono: </span>
+        <span id="phone"></span>
+        <label id="updatePhoneButton" class="update-button">Actualizar</label>
+    </p>
     
+    
+
     <section class="loan-details">
         <p>Fecha del préstamo: <span id="loanDate"></span></p>
         <p>Monto prestado: <span id="loanAmount"></span></p>
         <p>Total a pagar: <span id="totalToPay"></span></p>
         <p>Semanas restantes: <span id="remainingWeeks"></span></p>
         <p>Monto restante: <span id="remainingAmount"></span></p>
-        <p>Monto por semana: <span id="weeklyPayment"></span></p> <!-- Monto semanal -->
+        <p>Monto por semana: <span id="weeklyPayment"></span></p>
     </section>
     
-    <h2>Pagos Registrados</h2>
-    <ul id="paymentsList"></ul> <!-- Listado de pagos -->
+    <h2 id="registeredPaymentsTitle">Pagos Registrados</h2>
+    <button onclick="resendLastPayment()">Reenviar último pago</button>
+    <ul id="paymentsList"></ul>
 
     <button onclick="goBack()">Regresar al inicio</button>
 
     <script type="module" src="https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js"></script>
     <script type="module" src="https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js"></script>
     <script src="js/details.js"></script>
+    <script type="module" src="js/updatePhone.js"></script>
+<script>
+</script>
 </body>
 </html>

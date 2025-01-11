@@ -7,6 +7,32 @@ body {
     padding: 20px;
 }
 
+.phone-container {
+    font-size: 1.2em;
+    color: #333;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* Espacio entre los elementos */
+}
+
+.phone-container span {
+    margin-right: 10px;
+}
+
+.update-button {
+    cursor: pointer;
+    color: #007BFF;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.update-button:hover {
+    color: #0056b3;
+    text-decoration: none;
+}
+
 /* Adaptabilidad de la cabecera y el logo */
 .logo {
     max-width: 100%;
@@ -83,6 +109,10 @@ button {
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+}
+
+#registeredPaymentsTitle {
+    color: black;
 }
 
 button:hover {
