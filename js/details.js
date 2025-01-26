@@ -38,26 +38,23 @@
                 const lastPayment = loan.payments[loan.payments.length - 1];
 
                 // Crear el mensaje usando plantillas literales
-                const message = `
-                    Estimado/a ${loan.name},
+                  const message = `
+Estimado/a ${loan.name},
 
-                    ¡Gracias por su pago!
+¡Gracias por su pago!  
+Le informamos que hemos recibido su pago de la **semana ${lastPayment.week}** correspondiente a su préstamo.
 
-                    Le informamos que hemos recibido su pago de la semana ${lastPayment.week} correspondiente a su préstamo.
+*Monto pagado:* $${lastPayment.paymentAmount.toFixed(2)}  
+*Fecha:* ${lastPayment.date}  
+*Balance restante:* $${loan.remaining.toFixed(2)}  
 
-                    **Monto pagado:** $${lastPayment.paymentAmount.toFixed(2)}
-                    **Fecha:** ${lastPayment.date}
+Agradecemos su confianza en *Préstamos La Salvación* y quedamos a su disposición para cualquier consulta.  
 
-                    **Balance restante:** $${loan.remaining.toFixed(2)}
+¡Que tenga un excelente día!
 
-                    Agradecemos su confianza en **Préstamos La Salvación** y quedamos a su disposición para cualquier consulta.
-
-                    ¡Que tenga un excelente día!
-
-                    Atentamente,  
-                    **El equipo de Préstamos La Salvación**
-                `;
-
+Atentamente,  
+*El equipo de Préstamos La Salvación*
+`;
                 // Codificación del mensaje
                 const encodedMessage = encodeURIComponent(message.trim());
 
