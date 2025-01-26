@@ -187,7 +187,7 @@ Atentamente,
 
                     // Abrir WhatsApp con un retraso en Safari
                     setTimeout(() => {
-                        window.location.href = `https://wa.me/${phoneNumber}?text=${whatsappMessage}`;
+                        window.location.href = `https://wa.me/+52${phoneNumber}?text=${whatsappMessage}`;
                     }, 500);
                 }
             } catch (error) {
